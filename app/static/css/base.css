@@ -1,0 +1,38 @@
+.button{
+   display:inline-block;
+   font-weight:bold;
+   color:#800000;
+   background:#deb887;
+   width:30%;
+   padding:4px;
+   text-align:center;
+   text-decoration:none;
+}
+body{
+  background-image:url(../img/movie.jpg);
+  background-size:cover;
+}
+h1{
+color:#f4a460;
+font-style:italic;
+font-weight:bold;
+text-align:center;
+font-size:50px;
+}
+#welcome{
+font-weight:bold;
+text-align:center;
+font-size:40px;
+color:#f4a460;
+text-align:center;
+}
+form{
+color:#d2691e;
+font-size:20px;
+font-weight:bold;
+}
+ul{
+font-size:30px;
+color:#800000;
+background:#bc8f8f;
+}
