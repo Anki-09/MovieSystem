@@ -15,17 +15,7 @@ def before_request():
 @app.route('/index')
 @login_required
 def index():
-    posts=[
-            {
-                'author':{'username':'John'},
-                'body':'Beautiful day in Mangalore!'
-            },
-            {
-                'author':{'username':'Susan'},
-                'body':'The Avengers movie was so cool!'
-            }
-          ]
-    return render_template('index.html',title='Home',posts=posts)
+    return render_template('index.html')
 @app.route('/login',methods=['GET','POST'])
 def login():
     if current_user.is_authenticated:

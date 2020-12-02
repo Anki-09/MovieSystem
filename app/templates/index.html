@@ -2,6 +2,16 @@
 {% block content %}
     <h1> Movie Recommendation System </h1>
     <div id="welcome" > <p> Welcome {{ current_user.username }} </p> </div>
+    <div> <a class="movie" href="{{url_for('index')}}">Hollywood</a>
+		    <a class="movie" href="{{url_for('login')}}">Bollywood</a>
+		    <a class="movie" href="{{ url_for('user', username=current_user.username) }}">Sandalwood</a>
+		    <a class="movie" href="{{ url_for('logout') }}">Tollywood</a>
+	</div>
+	<div>
+		<img src="../static/img/movie2.jpg" width="300">
+		<img src="../static/img/movie3.jpg" width="300">
+		<img src="../static/img/movie2.jpg" width="300">
+	</div>
 {% endblock %}
 
 

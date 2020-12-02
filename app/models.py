@@ -1,4 +1,4 @@
-from app import db,login
+from app import db,login,app
 from datetime import datetime
 from flask_login import UserMixin
 from hashlib import md5
