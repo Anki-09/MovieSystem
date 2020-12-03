@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    <div> <a class="movie" href="{{url_for('index',lang='hollywood',type='horror')}}">Horror</a>
+          <a class="movie" href="{{url_for('index',lang='bollywood',type='comedy')}}">Comedy</a>
+          <a class="movie" href="{{ url_for('index',lang='sandalwood',type='romance')}}">Romance</a>
+          <a class="movie" href="{{ url_for('index',lang='tollywood',type='thriller') }}">Thriller</a>
+    </div>
+    {% if lang=='hollywood' %}
+    <img class="wood" src="../static/img/holly.jpg" width="75%" height="75%">
+    {% endif %}
+    {% if lang=='bollywood' %}
+    <img class="wood" src="../static/img/bolly.jpg" width="75%" height="75%">
+    {% endif %}
+    {% if lang=='sandalwood' %}
+    <img class="wood" src="../static/img/sandal.jpg" width="75%" height="75%">
+    {% endif %}
+    {% if lang=='tollywood' %}
+    <img class="wood" src="../static/img/tolly.jpg" width="75%" height="75%">
+    {% endif %}
+{% endblock %}
