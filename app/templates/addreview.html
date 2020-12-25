@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Add review for movie: {{ mname }}</h1>
+   <form action="" method="post" style="padding-left:650px">
+	{{ form.hidden_tag() }}
+	<p>
+	    {{ form.comment.label }}
+            {{ form.comment(size=100) }}<br>
+            {% for error in form.comment.errors %}
+	    <span style="color: red;background-color:#ffffff;">[{{ error }}]</span>
+	    {% endfor %}
+        </p>
+        <p>
+	    {{ form.rate.label }}
+	    {{ form.rate(size=5) }}<br>
+            {% for error in form.rate.errors %}
+	    <span style="color: red;">[{{ error }}]</span>
+	    {%endfor%}
+	</p>
+	<p style="padding-left:180px">{{ form.submit() }}</p>
+   </form>
+{% endblock %}
+

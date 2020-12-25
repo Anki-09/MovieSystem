@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+{% for item in results %}
+{% if lang == item.lang and mtype ==item.mtype  %}
+<div class="mainpage">
+	        <img id="mainimage" src="{{url_for('static',filename='img/'+item.image)}}">
+</div>
+<div class="mainpage">
+		<h2>{{ item.name }}</h2>
+		<p>{{ item.desc }}</p>
+	 {% if item.rating %}
+	  <p>Rating:{{ item.rating }}</p>
+	  <a class="button" href="{{url_for('seeReview',lang=lang ,mtype=mtype,mname=item.name)}}">See Reviews and Ratings</a>
+	 {% else %}
+	 <p>Rating: Not yet rated</p>
+	 {% endif %} 
+	 <a class="button" href="{{url_for('addReview',lang=lang ,mtype=mtype,mname=item.name)}}">Add Reviews and Ratings</a>
+</div>
+<hr>
+{% endif %}
+{% endfor %}
+{% endblock %}

@@ -20,10 +20,38 @@ class User(UserMixin,db.Model):
         def avatar(self,size):
             digest = md5(self.email.lower().encode('utf-8')).hexdigest()
             return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
+
+class movie_details(UserMixin,db.Model):
+    __tablename__ = 'movies'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), nullable=False)
+    lang = db.Column(db.String(), nullable=False)
+    mtype = db.Column(db.String(), nullable=False)
+    image = db.Column(db.String(), nullable=False)
+    rating = db.Column(db.Float())
+    desc = db.Column(db.String())
+    def __repr__(self):
+        return '<movie_details {}>'.format(self.name)
+
+class Reviews(db.Model):
+        __tablename__ ='review'
+
+        id = db.Column(db.Integer, primary_key=True)
+        comment = db.Column(db.String())
+        rate = db.Column(db.Float())
+        timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+        user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+        movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'))
+        def __repr__(self):  
+             return '<Reviews {}>'.format(self.comment)
+
+
 @login.user_loader
 def load_user(id):
         return User.query.get(int(id))
 @app.shell_context_processor
 def make_shell_context():
     return {'db':db,'User':User}
+
 

@@ -1,10 +1,10 @@
 from app import app,db
 from datetime import datetime
-from app.forms import LoginForm,RegistrationForm,EditProfileForm
+from app.forms import LoginForm,RegistrationForm,EditProfileForm,ReviewForm
 from flask import render_template,flash,redirect,url_for,request
 from flask_login import current_user,login_user
 from flask_login import logout_user,login_required
-from app.models import User
+from app.models import User,movie_details,Reviews
 from werkzeug.urls import url_parse
 @app.before_request
 def before_request():
@@ -71,3 +71,45 @@ def edit_profile():
 @app.route('/index/<lang>')
 def language(lang):
     return render_template('language.html',lang=lang)
+@app.route('/index/<lang>/<mtype>')
+def movie(lang,mtype):
+    con=movie_details.query.all()
+    results = [
+                {
+                    "name": one.name,
+                    "lang": one.lang,
+                    "mtype":one.mtype,
+                    "image":one.image,
+                    "rating":one.rating,
+                    "desc":one.desc
+                } for one in con]
+    return render_template('mtype.html',lang=lang,mtype=mtype,results=results)
+@app.route('/index/<lang>/<mtype>/<mname>/review')
+def seeReview(lang,mtype,mname):
+    mov=movie_details.query.filter_by(lang=lang,mtype=mtype,name=mname).first()
+    con=Reviews.query.filter_by(movie_id=mov.id).all()
+    dictreview = [ 
+            {
+                "username":User.query.filter_by(id=one.user_id).first().username,
+                "comment":one.comment,
+                "rate":one.rate,
+                "timestamp":one.timestamp
+                }for one in con]
+    return render_template('review.html',lang=lang,mtype=mtype,mname=mname,dictreview=dictreview)
+@app.route('/index/<lang>/<mtype>/<mname>/addreview',methods=['GET', 'POST'])
+def addReview(lang,mtype,mname):
+    form=ReviewForm()
+    if form.validate_on_submit():
+        obj1=movie_details.query.filter_by(lang=lang,mtype=mtype,name=mname).first()
+        obj = Reviews(comment=form.comment.data, rate=form.rate.data,user_id=current_user.id, movie_id=obj1.id)
+        db.session.add(obj)
+        rating=0.0
+        count=0
+        for one in Reviews.query.filter_by(movie_id=obj1.id).all():
+            rating+=one.rate
+            count+=1
+        obj1.rating=round(rating/count,2)
+        db.session.commit()
+        flash('Successfully added review')
+        return redirect(url_for('addReview',lang=lang,mtype=mtype,mname=mname))
+    return render_template('addreview.html',mname=mname,form=form)
